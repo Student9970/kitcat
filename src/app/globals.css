@@ -1,0 +1,119 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Dark mode driven by a `.dark` class on <html> (managed by next-themes). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Brand palette. Change these CSS variables to re-theme the whole site for a
+ * new niche. `--color-brand-*` are exposed to Tailwind as `brand-*` utilities.
+ */
+@theme {
+  --color-brand-50: oklch(0.97 0.02 50);
+  --color-brand-100: oklch(0.94 0.04 50);
+  --color-brand-200: oklch(0.88 0.07 50);
+  --color-brand-300: oklch(0.8 0.11 50);
+  --color-brand-400: oklch(0.72 0.15 48);
+  --color-brand-500: oklch(0.66 0.18 45);
+  --color-brand-600: oklch(0.58 0.18 42);
+  --color-brand-700: oklch(0.49 0.15 40);
+  --color-brand-800: oklch(0.41 0.12 40);
+  --color-brand-900: oklch(0.35 0.09 40);
+  --color-brand-950: oklch(0.23 0.06 40);
+
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-serif), ui-serif, Georgia, serif;
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.21 0.01 270);
+  --muted: oklch(0.55 0.01 270);
+  --card: oklch(0.99 0 0);
+  --border: oklch(0.92 0.005 270);
+}
+
+.dark {
+  --background: oklch(0.17 0.01 270);
+  --foreground: oklch(0.95 0.005 270);
+  --muted: oklch(0.68 0.01 270);
+  --card: oklch(0.21 0.01 270);
+  --border: oklch(0.28 0.01 270);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background-color: var(--color-brand-500);
+    color: white;
+  }
+}
+
+@layer utilities {
+  .text-muted {
+    color: var(--muted);
+  }
+  .bg-card {
+    background-color: var(--card);
+  }
+  .border-default {
+    border-color: var(--border);
+  }
+}
+
+/* Smooth anchor scrolling with offset for the sticky header. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+/* highlight.js theme (github-dark-dimmed-ish), scoped to code blocks. */
+.prose pre {
+  background-color: oklch(0.2 0.01 270);
+  color: oklch(0.9 0.01 270);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  overflow-x: auto;
+}
+.hljs-comment,
+.hljs-quote {
+  color: #8b949e;
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-doctag {
+  color: #ff7b72;
+}
+.hljs-string,
+.hljs-attr,
+.hljs-template-tag {
+  color: #a5d6ff;
+}
+.hljs-number,
+.hljs-built_in,
+.hljs-type {
+  color: #79c0ff;
+}
+.hljs-title,
+.hljs-section,
+.hljs-function .hljs-title {
+  color: #d2a8ff;
+}
+.hljs-name,
+.hljs-tag {
+  color: #7ee787;
+}
+.hljs-symbol,
+.hljs-bullet,
+.hljs-meta {
+  color: #ffa657;
+}

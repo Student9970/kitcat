@@ -1,0 +1,7 @@
+# Cloudflare Pages redirects
+# https://developers.cloudflare.com/pages/configuration/redirects/
+
+# The admin dashboard is development-only and never built for production.
+# Send any stray /admin requests back to the homepage.
+/admin    /    302
+/admin/*  /    302
