@@ -53,8 +53,8 @@ const url =
   "http://localhost:3000";
 
 export const siteConfig: SiteConfig = {
-  name: "The Curious Cat",
-  shortName: "Curious Cat",
+  name: "KitCat Journal",
+  shortName: "KitCat",
   description:
     "Expert guides, honest reviews, and practical tips to help your cat live a happier, healthier life.",
   tagline: "Everything your cat wishes you knew.",
@@ -63,17 +63,17 @@ export const siteConfig: SiteConfig = {
   defaultOgImage: "/images/og-default.svg",
   logo: "/images/logo.svg",
   author: {
-    name: "The Curious Cat Editorial Team",
+    name: "KitCat Journal Editorial Team",
     url: `${url}/about`,
-    twitter: "@curiouscat",
+    twitter: "@kitcatjournal",
   },
   organization: {
-    name: "The Curious Cat",
+    name: "KitCat Journal",
     logo: `${url}/images/logo.svg`,
     sameAs: [
-      "https://twitter.com/curiouscat",
-      "https://facebook.com/curiouscat",
-      "https://instagram.com/curiouscat",
+      "https://twitter.com/kitcatjournal",
+      "https://facebook.com/kitcatjournal",
+      "https://instagram.com/kitcatjournal",
     ],
   },
   mainNav: [
@@ -92,10 +92,10 @@ export const siteConfig: SiteConfig = {
     { label: "Sitemap", href: "/sitemap.xml" },
   ],
   social: [
-    { label: "Twitter", href: "https://twitter.com/curiouscat", icon: "twitter" },
-    { label: "Facebook", href: "https://facebook.com/curiouscat", icon: "facebook" },
-    { label: "Instagram", href: "https://instagram.com/curiouscat", icon: "instagram" },
-    { label: "YouTube", href: "https://youtube.com/@curiouscat", icon: "youtube" },
+    { label: "Twitter", href: "https://twitter.com/kitcatjournal", icon: "twitter" },
+    { label: "Facebook", href: "https://facebook.com/kitcatjournal", icon: "facebook" },
+    { label: "Instagram", href: "https://instagram.com/kitcatjournal", icon: "instagram" },
+    { label: "YouTube", href: "https://youtube.com/@kitcatjournal", icon: "youtube" },
     { label: "RSS", href: "/rss.xml", icon: "rss" },
   ],
   postsPerPage: 9,

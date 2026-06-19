@@ -6,6 +6,6 @@
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#g)"/>
-  <text x="80" y="300" font-family="Georgia, serif" font-size="84" font-weight="800" fill="#ffffff">The Curious Cat</text>
+  <text x="80" y="300" font-family="Georgia, serif" font-size="84" font-weight="800" fill="#ffffff">KitCat Journal</text>
   <text x="80" y="380" font-family="Arial, sans-serif" font-size="36" fill="#ffe8d6">Everything your cat wishes you knew.</text>
 </svg>
