@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Send, CheckCircle2 } from "lucide-react";
+import { Send, CheckCircle2, Loader2 } from "lucide-react";
+
+import { useLoadingBar } from "@/components/loading/LoadingBarProvider";
 
 /**
  * Static-export friendly contact form.
@@ -9,13 +11,20 @@ import { Send, CheckCircle2 } from "lucide-react";
  * submissions. With no endpoint, it falls back to opening the user's email app.
  */
 export function ContactForm({ endpoint }: { endpoint?: string }) {
+  const { start, stop } = useLoadingBar();
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (submitting) return;
+
+    setSubmitting(true);
+    start();
+
     if (endpoint) {
       try {
         const res = await fetch(endpoint, {
@@ -26,14 +35,20 @@ export function ContactForm({ endpoint }: { endpoint?: string }) {
         if (res.ok) setSent(true);
       } catch {
         /* fall through */
+      } finally {
+        setSubmitting(false);
+        stop();
       }
       return;
     }
+
     // Fallback: compose an email.
     const subject = encodeURIComponent(`Website contact from ${name}`);
     const body = encodeURIComponent(`${message}\n\nFrom: ${name} <${email}>`);
     window.location.href = `mailto:hello@example.com?subject=${subject}&body=${body}`;
     setSent(true);
+    setSubmitting(false);
+    stop();
   }
 
   if (sent) {
@@ -52,9 +67,10 @@ export function ContactForm({ endpoint }: { endpoint?: string }) {
           <span className="mb-1.5 block text-sm font-medium">Name</span>
           <input
             required
+            disabled={submitting}
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full rounded-xl border border-default bg-card px-4 py-2.5 outline-none focus:border-brand-500"
+            className="w-full rounded-2xl border border-brand-200/80 bg-card px-4 py-2.5 outline-none transition-all focus:border-brand-400 focus:ring-2 focus:ring-brand-200 disabled:opacity-60 dark:border-brand-800/60 dark:focus:ring-brand-800/40"
           />
         </label>
         <label className="block">
@@ -62,9 +78,10 @@ export function ContactForm({ endpoint }: { endpoint?: string }) {
           <input
             required
             type="email"
+            disabled={submitting}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-xl border border-default bg-card px-4 py-2.5 outline-none focus:border-brand-500"
+            className="w-full rounded-2xl border border-brand-200/80 bg-card px-4 py-2.5 outline-none transition-all focus:border-brand-400 focus:ring-2 focus:ring-brand-200 disabled:opacity-60 dark:border-brand-800/60 dark:focus:ring-brand-800/40"
           />
         </label>
       </div>
@@ -73,17 +90,28 @@ export function ContactForm({ endpoint }: { endpoint?: string }) {
         <textarea
           required
           rows={6}
+          disabled={submitting}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="w-full rounded-xl border border-default bg-card px-4 py-2.5 outline-none focus:border-brand-500"
+          className="w-full rounded-2xl border border-brand-200/80 bg-card px-4 py-2.5 outline-none transition-all focus:border-brand-400 focus:ring-2 focus:ring-brand-200 disabled:opacity-60 dark:border-brand-800/60 dark:focus:ring-brand-800/40"
         />
       </label>
       <button
         type="submit"
-        className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-brand-700"
+        disabled={submitting}
+        className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-6 py-3 font-semibold text-white shadow-cat transition-all hover:from-brand-600 hover:to-brand-700 hover:shadow-cat-lg disabled:cursor-not-allowed disabled:opacity-70"
       >
-        Send message
-        <Send className="size-4" />
+        {submitting ? (
+          <>
+            <Loader2 className="size-4 animate-spin" />
+            Sending…
+          </>
+        ) : (
+          <>
+            Send message
+            <Send className="size-4" />
+          </>
+        )}
       </button>
     </form>
   );

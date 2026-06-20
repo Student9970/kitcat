@@ -57,7 +57,7 @@ export const siteConfig: SiteConfig = {
   shortName: "KitCat",
   description:
     "Expert guides, honest reviews, and practical tips to help your cat live a happier, healthier life.",
-  tagline: "Everything your cat wishes you knew.",
+  tagline: "Purrfectly curated cat care ✨",
   url,
   locale: "en_US",
   defaultOgImage: "/images/og-default.svg",

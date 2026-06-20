@@ -104,14 +104,14 @@ export default async function PostPage({ params }: Props) {
         </header>
 
         {post.featuredImage && (
-          <div className="relative mb-10 aspect-[16/9] overflow-hidden rounded-2xl border border-default">
+          <div className="relative mb-10 aspect-[16/9] overflow-hidden rounded-3xl border border-brand-200/70 shadow-cat dark:border-brand-800/50">
             <Image
               src={post.featuredImage}
               alt={post.title}
               fill
               priority
               sizes="(max-width: 768px) 100vw, 768px"
-              className="object-cover"
+              className="object-cover object-center"
             />
           </div>
         )}
@@ -129,7 +129,7 @@ export default async function PostPage({ params }: Props) {
                 <Link
                   key={tag}
                   href={`/tag/${slugify(tag)}`}
-                  className="rounded-full border border-default bg-card px-3 py-1 text-sm text-muted transition-colors hover:border-brand-500 hover:text-brand-600"
+                  className="rounded-full border border-brand-200/80 bg-brand-50/50 px-3 py-1 text-sm text-muted transition-all hover:border-brand-300 hover:bg-brand-100 hover:text-brand-600 dark:border-brand-800/60 dark:bg-brand-950/30 dark:hover:bg-brand-950/50"
                 >
                   #{tag}
                 </Link>

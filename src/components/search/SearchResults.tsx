@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Search } from "lucide-react";
 
 import { useSearch } from "@/lib/use-search";
+import { useSearchLoadingBar } from "@/hooks/use-search-loading-bar";
 import { formatDate } from "@/lib/utils";
 
 export function SearchResults() {
@@ -13,7 +14,8 @@ export function SearchResults() {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("q") ?? "";
   const [query, setQuery] = useState(initialQuery);
-  const { results, ready, total } = useSearch(query, 50);
+  const { results, ready, loading, total } = useSearch(query, 50);
+  useSearchLoadingBar(loading, query);
 
   // Keep the URL in sync (shallow) as the user types.
   useEffect(() => {
@@ -38,7 +40,7 @@ export function SearchResults() {
           onChange={(e) => setQuery(e.target.value)}
           placeholder={`Search ${total || ""} articles…`}
           aria-label="Search articles"
-          className="w-full rounded-full border border-default bg-card py-3.5 pl-12 pr-4 text-lg outline-none focus:border-brand-500"
+          className="w-full rounded-full border border-brand-200/80 bg-card py-3.5 pl-12 pr-4 text-lg outline-none transition-all focus:border-brand-400 focus:ring-2 focus:ring-brand-200 dark:border-brand-800/60 dark:focus:ring-brand-800/40"
         />
       </div>
 
@@ -63,7 +65,7 @@ export function SearchResults() {
                   <span className="text-xs font-semibold uppercase tracking-wider text-brand-600">
                     {r.category}
                   </span>
-                  <h2 className="mt-1 text-xl font-bold group-hover:text-brand-600">
+                  <h2 className="mt-1 font-serif text-xl font-bold transition-colors group-hover:text-brand-600">
                     {r.title}
                   </h2>
                   <p className="mt-1 line-clamp-2 text-muted">{r.description}</p>

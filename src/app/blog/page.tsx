@@ -27,7 +27,7 @@ export default function BlogPage() {
       <JsonLd data={breadcrumbSchema([{ name: "Blog", url: "/blog" }])} />
       <Breadcrumb items={[{ name: "Blog", url: "/blog" }]} />
       <PageHeader
-        title="The Blog"
+        title="The Journal"
         description={`${posts.length} ${posts.length === 1 ? "article" : "articles"} and counting.`}
       />
 

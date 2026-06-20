@@ -17,7 +17,7 @@ export function ArticleCard({
   return (
     <article
       className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-2xl border border-default bg-card transition-all hover:-translate-y-0.5 hover:shadow-lg",
+        "group flex h-full flex-col overflow-hidden rounded-3xl border border-brand-200/70 bg-card transition-all hover:-translate-y-1 hover:border-brand-300 hover:shadow-cat-lg dark:border-brand-800/50",
         className
       )}
     >
@@ -29,7 +29,7 @@ export function ArticleCard({
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority={priority}
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div className="size-full bg-gradient-to-br from-brand-400 to-brand-700" />
@@ -44,12 +44,12 @@ export function ArticleCard({
       <div className="flex flex-1 flex-col p-5">
         <Link
           href={`/category/${slugify(post.category)}`}
-          className="text-xs font-semibold uppercase tracking-wider text-brand-600 hover:underline"
+          className="text-xs font-semibold uppercase tracking-wider text-brand-600 hover:text-brand-700"
         >
           {post.category}
         </Link>
 
-        <h3 className="mt-2 text-lg font-bold leading-snug">
+        <h3 className="mt-2 font-serif text-lg font-bold leading-snug">
           <Link href={`/blog/${post.slug}`} className="hover:text-brand-600">
             {post.title}
           </Link>

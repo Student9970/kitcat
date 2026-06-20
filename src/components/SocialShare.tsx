@@ -38,7 +38,7 @@ export function SocialShare({ slug, title }: { slug: string; title: string }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={label}
-          className="inline-flex size-9 items-center justify-center rounded-full border border-default text-muted transition-colors hover:bg-brand-500/10 hover:text-brand-600"
+          className="inline-flex size-9 items-center justify-center rounded-full border border-brand-200/80 text-muted transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-cat dark:border-brand-800/60 dark:hover:bg-brand-950/50"
         >
           <Icon className="size-4" />
         </a>
@@ -47,7 +47,7 @@ export function SocialShare({ slug, title }: { slug: string; title: string }) {
         type="button"
         onClick={copy}
         aria-label="Copy link"
-        className="inline-flex size-9 items-center justify-center rounded-full border border-default text-muted transition-colors hover:bg-brand-500/10 hover:text-brand-600"
+        className="inline-flex size-9 items-center justify-center rounded-full border border-brand-200/80 text-muted transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-cat dark:border-brand-800/60 dark:hover:bg-brand-950/50"
       >
         {copied ? <Check className="size-4 text-green-600" /> : <Link2 className="size-4" />}
       </button>

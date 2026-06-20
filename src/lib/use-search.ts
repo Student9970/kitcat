@@ -46,13 +46,17 @@ const fuseOptions = {
 export function useSearch(query: string, limit = 10) {
   const [docs, setDocs] = useState<SearchDoc[]>(cachedIndex ?? []);
   const [ready, setReady] = useState<boolean>(!!cachedIndex);
+  const [loading, setLoading] = useState<boolean>(!cachedIndex);
 
   useEffect(() => {
+    if (cachedIndex) return;
     let active = true;
+    setLoading(true);
     loadIndex().then((data) => {
       if (!active) return;
       setDocs(data);
       setReady(true);
+      setLoading(false);
     });
     return () => {
       active = false;
@@ -74,5 +78,5 @@ export function useSearch(query: string, limit = 10) {
       .map((r: FuseResult<SearchDoc>) => r.item);
   }, [query, fuse, limit]);
 
-  return { results, ready, total: docs.length };
+  return { results, ready, loading, total: docs.length };
 }

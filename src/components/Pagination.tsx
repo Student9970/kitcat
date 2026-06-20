@@ -30,18 +30,17 @@ export function Pagination({
     }
   }
 
+  const btnBase =
+    "inline-flex size-10 items-center justify-center rounded-full border border-brand-200/80 transition-all hover:border-brand-300 hover:bg-brand-50 hover:shadow-cat dark:border-brand-800/60 dark:hover:bg-brand-950/50";
+
   return (
     <nav className="mt-12 flex items-center justify-center gap-2" aria-label="Pagination">
       {currentPage > 1 ? (
-        <Link
-          href={href(currentPage - 1)}
-          className="inline-flex size-10 items-center justify-center rounded-lg border border-default hover:bg-card"
-          aria-label="Previous page"
-        >
+        <Link href={href(currentPage - 1)} className={btnBase} aria-label="Previous page">
           <ChevronLeft className="size-4" />
         </Link>
       ) : (
-        <span className="inline-flex size-10 items-center justify-center rounded-lg border border-default opacity-40">
+        <span className={cn(btnBase, "opacity-40")}>
           <ChevronLeft className="size-4" />
         </span>
       )}
@@ -57,10 +56,10 @@ export function Pagination({
             href={href(p)}
             aria-current={p === currentPage ? "page" : undefined}
             className={cn(
-              "inline-flex size-10 items-center justify-center rounded-lg border text-sm font-medium",
+              "inline-flex size-10 items-center justify-center rounded-full border text-sm font-semibold transition-all",
               p === currentPage
-                ? "border-brand-600 bg-brand-600 text-white"
-                : "border-default hover:bg-card"
+                ? "border-brand-500 bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-cat"
+                : "border-brand-200/80 hover:border-brand-300 hover:bg-brand-50 dark:border-brand-800/60 dark:hover:bg-brand-950/50"
             )}
           >
             {p}
@@ -69,15 +68,11 @@ export function Pagination({
       )}
 
       {currentPage < totalPages ? (
-        <Link
-          href={href(currentPage + 1)}
-          className="inline-flex size-10 items-center justify-center rounded-lg border border-default hover:bg-card"
-          aria-label="Next page"
-        >
+        <Link href={href(currentPage + 1)} className={btnBase} aria-label="Next page">
           <ChevronRight className="size-4" />
         </Link>
       ) : (
-        <span className="inline-flex size-10 items-center justify-center rounded-lg border border-default opacity-40">
+        <span className={cn(btnBase, "opacity-40")}>
           <ChevronRight className="size-4" />
         </span>
       )}

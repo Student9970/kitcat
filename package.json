@@ -4,9 +4,9 @@
   "private": true,
   "description": "Production-ready, SEO-focused, niche-agnostic MDX blogging platform built with Next.js 16.",
   "scripts": {
-    "predev": "node ./scripts/build-search-index.mjs",
+    "predev": "node ./scripts/build-search-index.mjs && node ./scripts/build-paw-tile.mjs && node ./scripts/build-logo-assets.mjs",
     "dev": "next dev",
-    "prebuild": "node ./scripts/build-search-index.mjs",
+    "prebuild": "node ./scripts/build-search-index.mjs && node ./scripts/build-paw-tile.mjs && node ./scripts/build-logo-assets.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -43,7 +43,9 @@
     "@types/react-dom": "^19.2.0",
     "eslint": "^9.21.0",
     "eslint-config-next": "16.2.9",
+    "sharp": "^0.35.2",
     "tailwindcss": "^4.1.13",
+    "to-ico": "^1.1.5",
     "typescript": "^5.7.3"
   }
 }

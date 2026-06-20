@@ -114,7 +114,7 @@ export function AffiliateProduct({
             href={ctaHref}
             target="_blank"
             rel="nofollow sponsored noopener noreferrer"
-            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto"
+            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-3 font-semibold text-white shadow-cat transition-all hover:from-brand-600 hover:to-brand-700 hover:shadow-cat-lg sm:w-auto"
           >
             {ctaText}
             <ExternalLink className="size-4" />

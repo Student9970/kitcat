@@ -40,7 +40,7 @@ export function PageHeader({
         align === "center" && "mx-auto max-w-2xl text-center"
       )}
     >
-      <h1 className="text-3xl font-extrabold tracking-tight md:text-5xl">{title}</h1>
+      <h1 className="font-serif text-3xl font-bold tracking-tight md:text-5xl">{title}</h1>
       {description && (
         <p className="mt-3 text-lg text-muted">{description}</p>
       )}
