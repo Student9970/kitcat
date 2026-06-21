@@ -137,7 +137,7 @@ export function PostsTable({
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-1">
                       <a
-                        href={`/blog/${post.slug}`}
+                        href={`/blog/${post.slug}/`}
                         target="_blank"
                         rel="noopener noreferrer"
                         title="Preview"

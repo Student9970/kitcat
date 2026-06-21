@@ -1,3 +1,5 @@
+import { revalidatePath } from "next/cache";
+
 import { isAuthorized, unauthorized } from "@/lib/admin/auth";
 import {
   createPost,
@@ -5,6 +7,11 @@ import {
   SlugConflictError,
   type PostInput,
 } from "@/lib/admin/posts-store";
+
+function revalidatePost(slug: string) {
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${slug}`);
+}
 
 export async function GET(request: Request) {
   if (!isAuthorized(request)) return unauthorized();
@@ -23,6 +30,7 @@ export async function POST(request: Request) {
       tags: Array.isArray(body.tags) ? body.tags : [],
       status: body.status === "published" ? "published" : "draft",
     });
+    revalidatePost(post.slug);
     return Response.json({ post }, { status: 201 });
   } catch (err) {
     if (err instanceof SlugConflictError) {

@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { ArrowLeft, Save, Send, ImageIcon, Wand2, Loader2, X } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import { ArrowLeft, Save, Send, ImageIcon, Wand2, Loader2, X, BookOpen } from "lucide-react";
 
 import {
   api,
@@ -11,6 +11,7 @@ import {
   type PostInput,
 } from "@/lib/admin/client";
 import { MediaLibrary } from "./MediaLibrary";
+import { MdxCheatsheet } from "./MdxCheatsheet";
 
 const today = () => new Date().toISOString().slice(0, 10);
 
@@ -47,8 +48,11 @@ export function PostEditor({
   const [status, setStatus] = useState(post?.status ?? "draft");
 
   const [showMedia, setShowMedia] = useState(false);
+  const [showMdxGuide, setShowMdxGuide] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const insertAtRef = useRef({ start: 0, end: 0 });
 
   const computedSlug = useMemo(
     () => (slugTouched ? slug : slugify(title)),
@@ -61,6 +65,35 @@ export function PostEditor({
     if (!seoTitle) setSeoTitle(title);
     if (!seoDescription) setSeoDescription(description);
     if (!slugTouched) setSlug(slugify(title));
+  }
+
+  function openMdxGuide() {
+    const el = contentRef.current;
+    insertAtRef.current = el
+      ? { start: el.selectionStart, end: el.selectionEnd }
+      : { start: content.length, end: content.length };
+    setShowMdxGuide(true);
+  }
+
+  function insertSnippet(code: string) {
+    const { start, end } = insertAtRef.current;
+    const needsLeadingNewline = start > 0 && content[start - 1] !== "\n";
+    const needsTrailingNewline = end < content.length && content[end] !== "\n";
+    const text = `${needsLeadingNewline ? "\n\n" : ""}${code}${needsTrailingNewline ? "\n\n" : ""}`;
+    const next = content.slice(0, start) + text + content.slice(end);
+    const cursor = start + text.length;
+
+    setContent(next);
+    insertAtRef.current = { start: cursor, end: cursor };
+
+    requestAnimationFrame(() => {
+      const el = contentRef.current;
+      if (!el) return;
+      el.focus();
+      el.setSelectionRange(cursor, cursor);
+    });
+
+    setShowMdxGuide(false);
   }
 
   async function save(publish: boolean) {
@@ -175,13 +208,29 @@ export function PostEditor({
           <div>
             <div className="mb-1 flex items-center justify-between">
               <label className="block text-sm font-medium">Content (MDX)</label>
-              <span className="text-xs text-muted">{reading}</span>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={openMdxGuide}
+                  className="inline-flex items-center gap-1 text-xs font-medium text-brand-600 hover:underline"
+                >
+                  <BookOpen className="size-3.5" /> MDX guide
+                </button>
+                <span className="text-xs text-muted">{reading}</span>
+              </div>
             </div>
             <textarea
+              ref={contentRef}
               value={content}
               onChange={(e) => setContent(e.target.value)}
+              onSelect={(e) => {
+                insertAtRef.current = {
+                  start: e.currentTarget.selectionStart,
+                  end: e.currentTarget.selectionEnd,
+                };
+              }}
               rows={22}
-              placeholder="Write your post in Markdown / MDX. You can use <Callout>, <AffiliateProduct> and <InContentAd /> components."
+              placeholder="Write your post in Markdown / MDX…"
               className={`${fieldClass()} font-mono leading-relaxed`}
             />
           </div>
@@ -325,6 +374,20 @@ export function PostEditor({
           </div>
         </aside>
       </div>
+
+      {showMdxGuide && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="max-h-[85vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-[var(--background)] p-6">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-lg font-bold">MDX writing guide</h2>
+              <button onClick={() => setShowMdxGuide(false)} aria-label="Close">
+                <X className="size-5" />
+              </button>
+            </div>
+            <MdxCheatsheet onInsert={insertSnippet} />
+          </div>
+        </div>
+      )}
 
       {showMedia && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">

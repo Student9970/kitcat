@@ -46,7 +46,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={`${nunito.variable} ${playfair.variable}`}>
       <body className="min-h-dvh font-sans">
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <LoadingBarProvider>
             <NavigationProgress />
             <SiteShell header={<Header />} footer={<Footer />}>
