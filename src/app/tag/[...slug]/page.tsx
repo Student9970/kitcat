@@ -15,6 +15,7 @@ interface Props {
   params: Promise<{ slug: string[] }>;
 }
 
+export const dynamic = "force-static";
 export const dynamicParams = false;
 
 function parseSlug(parts: string[]): { slug: string; page: number } | null {
@@ -26,7 +27,7 @@ function parseSlug(parts: string[]): { slug: string; page: number } | null {
   return null;
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   const perPage = siteConfig.postsPerPage;
   const params: { slug: string[] }[] = [];
   for (const tag of getTags()) {
