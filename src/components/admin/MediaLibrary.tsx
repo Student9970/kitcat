@@ -92,6 +92,9 @@ export function MediaLibrary({
             hidden
             onChange={(e) => onFiles(e.target.files)}
           />
+          <p className="mt-2 text-xs text-muted">
+            Uploads are automatically converted to WebP and limited to 12 MB each.
+          </p>
         </div>
         <button
           type="button"

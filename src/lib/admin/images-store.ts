@@ -1,13 +1,23 @@
 import fs from "node:fs";
 import path from "node:path";
+import sharp from "sharp";
 
 import { slugify } from "@/lib/utils";
 
 const ROOT = process.cwd();
 const UPLOADS_DIR = path.join(ROOT, "public", "uploads");
 
-const ALLOWED = new Set([".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".avif"]);
-const MAX_BYTES = 8 * 1024 * 1024; // 8 MB
+const ALLOWED = new Set([
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".gif",
+  ".webp",
+  ".svg",
+  ".avif",
+]);
+const MAX_BYTES = 12 * 1024 * 1024; // 12 MB
+const OUTPUT_EXTENSION = ".webp";
 
 export interface UploadedImage {
   name: string;
@@ -17,7 +27,8 @@ export interface UploadedImage {
 }
 
 function ensureDir() {
-  if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+  if (!fs.existsSync(UPLOADS_DIR))
+    fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 }
 
 export function listImages(): UploadedImage[] {
@@ -39,9 +50,9 @@ export function listImages(): UploadedImage[] {
 
 export class ImageValidationError extends Error {}
 
-function uniqueName(original: string): string {
-  const ext = path.extname(original).toLowerCase();
-  const base = slugify(path.basename(original, ext)) || "image";
+function uniqueName(original: string, ext = OUTPUT_EXTENSION): string {
+  const originalExt = path.extname(original).toLowerCase();
+  const base = slugify(path.basename(original, originalExt)) || "image";
   let name = `${base}${ext}`;
   let i = 1;
   while (fs.existsSync(path.join(UPLOADS_DIR, name))) {
@@ -57,13 +68,26 @@ export async function saveImage(file: File): Promise<UploadedImage> {
     throw new ImageValidationError(`Unsupported file type: ${ext}`);
   }
   if (file.size > MAX_BYTES) {
-    throw new ImageValidationError("File exceeds the 8 MB limit.");
+    throw new ImageValidationError("File exceeds the 12 MB limit.");
   }
+
   const name = uniqueName(file.name);
   const buffer = Buffer.from(await file.arrayBuffer());
-  fs.writeFileSync(path.join(UPLOADS_DIR, name), buffer);
-  const stat = fs.statSync(path.join(UPLOADS_DIR, name));
-  return { name, url: `/uploads/${name}`, size: stat.size, modified: stat.mtime.toISOString() };
+  const outputPath = path.join(UPLOADS_DIR, name);
+
+  try {
+    await sharp(buffer).webp({ quality: 82, effort: 6 }).toFile(outputPath);
+  } catch {
+    throw new ImageValidationError("Unable to process this image format.");
+  }
+
+  const stat = fs.statSync(outputPath);
+  return {
+    name,
+    url: `/uploads/${name}`,
+    size: stat.size,
+    modified: stat.mtime.toISOString(),
+  };
 }
 
 export function deleteImage(name: string): void {
