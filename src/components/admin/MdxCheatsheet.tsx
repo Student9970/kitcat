@@ -43,13 +43,13 @@ function SnippetBlock({
   onInsert,
 }: {
   snippet: MdxReferenceSnippet;
-  onInsert: (code: string) => void;
+  onInsert?: (code: string) => void;
 }) {
   return (
     <div className="rounded-lg border border-default bg-card">
       <div className="flex items-center justify-between gap-2 border-b border-default px-3 py-2">
         <span className="text-xs font-semibold">{snippet.label}</span>
-        <AddButton code={snippet.code} onInsert={onInsert} />
+        {onInsert && <AddButton code={snippet.code} onInsert={onInsert} />}
       </div>
       <pre className="overflow-x-auto p-3 text-xs leading-relaxed text-foreground">
         <code>{snippet.code}</code>
@@ -58,7 +58,11 @@ function SnippetBlock({
   );
 }
 
-export function MdxCheatsheet({ onInsert }: { onInsert: (code: string) => void }) {
+export function MdxCheatsheet({
+  onInsert,
+}: {
+  onInsert?: (code: string) => void;
+}) {
   return (
     <div className="space-y-8">
       {mdxReferenceSections.map((section) => (
