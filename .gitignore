@@ -40,3 +40,7 @@ yarn-error.log*
 
 # generated search index (regenerated on build)
 /public/search-index.json
+
+# python
+__pycache__/
+*.py[cod]

@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "eslint .",
     "preview": "npx serve out",
-    "search-index": "node ./scripts/build-search-index.mjs"
+    "search-index": "node ./scripts/build-search-index.mjs",
+    "create-blog": "python3 scripts/create_blog.py"
   },
   "dependencies": {
     "clsx": "^2.1.1",
